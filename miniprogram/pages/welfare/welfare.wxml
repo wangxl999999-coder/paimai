@@ -1,0 +1,48 @@
+<view class="welfare-page">
+  <view class="welfare-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="header-icon">🎁</view>
+      <view class="header-title">福利拍卖</view>
+      <view class="header-desc">商家放漏，超值好物限时抢</view>
+    </view>
+  </view>
+
+  <view class="goods-list" wx:if="{{list.length > 0}}">
+    <view class="goods-item" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="goods-image {{item.status === 'ended' ? 'ended' : ''}}">
+        <image src="{{item.images[0]}}" mode="aspectFill"></image>
+        <view class="welfare-tag">福利</view>
+        <view class="countdown" wx:if="{{item.countdown && !item.countdown.ended}}">
+          <text>⏰ {{item.countdown.text}}</text>
+        </view>
+      </view>
+      <view class="goods-info">
+        <view class="goods-title">{{item.title}}</view>
+        <view class="goods-price">
+          <text class="label">起拍价</text>
+          <text class="price">{{item.startPrice}}</text>
+          <text class="current">当前: ¥{{item.currentPrice}}</text>
+        </view>
+        <view class="goods-meta">
+          <text>{{item.bidCount || 0}}次出价</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gift%20box&image_size=square"></image>
+    <view>暂无福利商品</view>
+    <view class="empty-tip">福利商品不定期更新，敬请期待~</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+
+  <view class="tip-card">
+    <view class="tip-title">💡 什么是福利拍卖？</view>
+    <view class="tip-item">1. 商家为吸引粉丝，以远低于市场价的起拍价发布商品</view>
+    <view class="tip-item">2. 关注商家后可参与竞拍，有机会捡漏好物</view>
+    <view class="tip-item">3. 每个商家的福利商品数量有限，先到先得</view>
+  </view>
+</view>

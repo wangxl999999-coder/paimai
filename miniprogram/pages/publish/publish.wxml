@@ -1,0 +1,319 @@
+<view class="publish-page">
+  <view class="type-selector" wx:if="{{!activeType}}">
+    <view class="section-title">选择发布类型</view>
+    <view class="type-list">
+      <view 
+        class="type-item" 
+        wx:for="{{types}}" 
+        wx:key="id"
+        bindtap="selectType"
+        data-type="{{item.id}}"
+      >
+        <view class="type-icon">{{item.icon}}</view>
+        <view class="type-name">{{item.name}}</view>
+        <view class="type-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="publish-form" wx:if="{{activeType}}">
+    <view class="form-card">
+      <view class="form-header">
+        <text class="back-btn" bindtap="resetForm">← 返回选择类型</text>
+        <text class="current-type">{{types.find(t => t.id === activeType).name}}</text>
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">商品图片 <text class="required">*</text></view>
+        <view class="image-uploader">
+          <view class="image-item" wx:for="{{images}}" wx:key="*this">
+            <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}"></image>
+            <view class="remove-btn" bindtap="removeImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:if="{{images.length < 9}}">
+            <text class="plus">+</text>
+            <text class="upload-text">上传图片</text>
+          </view>
+        </view>
+        <view class="tip">最多上传9张图片</view>
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">商品标题 <text class="required">*</text></view>
+        <input 
+          class="input" 
+          placeholder="请输入商品标题" 
+          maxlength="50"
+          value="{{form.title}}"
+          data-field="title"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">商品描述</view>
+        <textarea 
+          class="textarea" 
+          placeholder="详细描述商品情况、特点等"
+          value="{{form.description}}"
+          data-field="description"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">商品分类</view>
+        <picker range="{{categories}}" bindchange="selectCategory">
+          <view class="picker">
+            {{form.category || '请选择分类'}}
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item" wx:if="{{activeType === 'auction' && !form.skillService}}">
+        <view class="item-label">商品成色</view>
+        <picker range="{{conditions}}" bindchange="selectCondition">
+          <view class="picker">
+            {{form.condition}}
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
+
+      <block wx:if="{{activeType === 'auction'}}">
+        <view class="form-item">
+          <view class="item-label">起拍价 <text class="required">*</text></view>
+          <input 
+            class="input" 
+            placeholder="请输入起拍价" 
+            type="digit"
+            value="{{form.startPrice}}"
+            data-field="startPrice"
+            bindinput="onInput"
+          />
+        </view>
+        <view class="form-item">
+          <view class="item-label">加价幅度</view>
+          <input 
+            class="input" 
+            placeholder="最低加价金额，默认1元" 
+            type="digit"
+            value="{{form.minIncrement}}"
+            data-field="minIncrement"
+            bindinput="onInput"
+          />
+        </view>
+        <view class="form-item">
+          <view class="item-label">保留价</view>
+          <input 
+            class="input" 
+            placeholder="未达到此价格将不成交" 
+            type="digit"
+            value="{{form.reservePrice}}"
+            data-field="reservePrice"
+            bindinput="onInput"
+          />
+        </view>
+        <view class="form-item">
+          <view class="item-label">
+            技能服务拍卖
+          </view>
+          <switch 
+            checked="{{form.skillService}}" 
+            bindchange="toggleSkillService"
+            color="#ff6b35"
+          />
+        </view>
+      </block>
+
+      <block wx:if="{{activeType === 'fixed' || activeType === 'seckill'}}">
+        <view class="form-item">
+          <view class="item-label">商品价格 <text class="required">*</text></view>
+          <input 
+            class="input" 
+            placeholder="请输入商品价格" 
+            type="digit"
+            value="{{form.price}}"
+            data-field="price"
+            bindinput="onInput"
+          />
+        </view>
+        <view class="form-item">
+          <view class="item-label">原价</view>
+          <input 
+            class="input" 
+            placeholder="显示时会有划线效果" 
+            type="digit"
+            value="{{form.originalPrice}}"
+            data-field="originalPrice"
+            bindinput="onInput"
+          />
+        </view>
+        <view class="form-item">
+          <view class="item-label">库存数量</view>
+          <input 
+            class="input" 
+            placeholder="请输入库存数量" 
+            type="number"
+            value="{{form.stock}}"
+            data-field="stock"
+            bindinput="onInput"
+          />
+        </view>
+      </block>
+
+      <block wx:if="{{activeType === 'seckill'}}">
+        <view class="form-item">
+          <view class="item-label">每人限购</view>
+          <input 
+            class="input" 
+            placeholder="每人最多购买数量" 
+            type="number"
+            value="{{form.limitPerUser}}"
+            data-field="limitPerUser"
+            bindinput="onInput"
+          />
+        </view>
+      </block>
+
+      <block wx:if="{{activeType === 'group'}}">
+        <view class="form-item">
+          <view class="item-label">阶梯价格 <text class="required">*</text></view>
+          <view class="step-price-list">
+            <view class="step-price-item" wx:for="{{form.stepPrices}}" wx:key="count">
+              <text>{{item.count}}人团</text>
+              <input 
+                class="step-input" 
+                placeholder="价格" 
+                type="digit"
+                value="{{item.price}}"
+                data-field="stepPrices[{{index}}].price"
+                bindinput="onInput"
+              />
+              <text class="step-unit">元/件</text>
+              <text class="remove-step" bindtap="removeStepPrice" data-index="{{index}}">×</text>
+            </view>
+          </view>
+          <view class="add-step-btn" bindtap="showStepModal">+ 添加阶梯</view>
+        </view>
+        <view class="form-item">
+          <view class="item-label">总库存</view>
+          <input 
+            class="input" 
+            placeholder="请输入总库存" 
+            type="number"
+            value="{{form.stock}}"
+            data-field="stock"
+            bindinput="onInput"
+          />
+        </view>
+      </block>
+
+      <view class="form-item">
+        <view class="item-label">运费</view>
+        <input 
+          class="input" 
+          placeholder="0表示包邮" 
+          type="digit"
+          value="{{form.shippingFee}}"
+          data-field="shippingFee"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">发货地</view>
+        <input 
+          class="input" 
+          placeholder="如：北京市朝阳区"
+          value="{{form.location}}"
+          data-field="location"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">开始时间</view>
+        <picker mode="date" value="{{form.startTime}}" bindchange="selectStartTime">
+          <picker mode="time" value="{{form.startTime}}" bindchange="selectStartTime">
+            <view class="picker">
+              {{form.startTime || '立即开始'}}
+              <text class="arrow">></text>
+            </view>
+          </picker>
+        </picker>
+      </view>
+
+      <view class="form-item" wx:if="{{activeType !== 'fixed'}}">
+        <view class="item-label">持续时间</view>
+        <picker range="{{durations}}" range-key="label" bindchange="selectDuration">
+          <view class="picker">
+            {{durations.find(d => d.value === form.duration).label}}
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">分享佣金</view>
+        <input 
+          class="input" 
+          placeholder="他人分享成交后奖励的金额" 
+          type="digit"
+          value="{{form.commission}}"
+          data-field="commission"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="item-label">
+          福利拍卖
+          <text class="tip-text">（粉丝福利，提升店铺人气）</text>
+        </view>
+        <switch 
+          checked="{{form.isWelfare}}" 
+          bindchange="toggleWelfare"
+          color="#ff6b35"
+        />
+      </view>
+
+      <button class="btn btn-primary btn-block submit-btn" bindtap="submit">
+        发布商品
+      </button>
+    </view>
+  </view>
+
+  <view class="step-modal" wx:if="{{showStepPriceModal}}" bindtap="hideStepModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-title">添加阶梯价格</view>
+      <view class="form-item">
+        <view class="item-label">成团人数</view>
+        <input 
+          class="input" 
+          placeholder="请输入人数" 
+          type="number"
+          value="{{newStep.count}}"
+          data-field="count"
+          bindinput="onStepInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="item-label">单价（元）</view>
+        <input 
+          class="input" 
+          placeholder="请输入价格" 
+          type="digit"
+          value="{{newStep.price}}"
+          data-field="price"
+          bindinput="onStepInput"
+        />
+      </view>
+      <view class="modal-buttons">
+        <button class="btn btn-outline" bindtap="hideStepModal">取消</button>
+        <button class="btn btn-primary" bindtap="addStepPrice">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

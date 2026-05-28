@@ -1,0 +1,69 @@
+<view class="commission-page">
+  <view class="stats-header">
+    <view class="stats-bg"></view>
+    <view class="stats-content">
+      <view class="stats-title">累计佣金（元）</view>
+      <view class="stats-total">¥{{stats.total}}</view>
+      <view class="stats-row">
+        <view class="stats-item">
+          <text class="item-value">¥{{stats.available}}</text>
+          <text class="item-label">可提现</text>
+        </view>
+        <view class="stats-item">
+          <text class="item-value">¥{{stats.pending}}</text>
+          <text class="item-label">待生效</text>
+        </view>
+      </view>
+      <button class="withdraw-btn" bindtap="goWithdraw">
+        立即提现
+      </button>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <view 
+      class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="id"
+      bindtap="switchTab"
+      data-id="{{item.id}}"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <view class="commission-list" wx:if="{{list.length > 0}}">
+    <view class="commission-item" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.goodsId}}">
+      <view class="item-left">
+        <image src="{{item.goods?.images[0]}}" class="goods-img" wx:if="{{item.goods}}"></image>
+        <view class="item-info">
+          <view class="item-title">{{item.remark || item.goods?.title || '佣金收入'}}</view>
+          <view class="item-meta">
+            <text class="from" wx:if="{{item.fromUser}}">来自: {{item.fromUser.nickname}}</text>
+            <text class="time">{{item.timeText}}</text>
+          </view>
+          <view class="item-status {{item.status}}">
+            {{item.status === 'available' ? '可提现' : item.status === 'pending' ? '待生效' : item.status === 'settled' ? '已结算' : '已取消'}}
+          </view>
+        </view>
+      </view>
+      <view class="item-amount text-primary">+¥{{item.amount}}</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=empty%20commission&image_size=square"></image>
+    <view>暂无佣金记录</view>
+    <view class="empty-tip">分享商品给好友，好友购买后可获得佣金</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+
+  <view class="tip-card">
+    <view class="tip-title">💰 如何赚佣金？</view>
+    <view class="tip-item">1. 打开商品详情页，点击"分享赚佣金"</view>
+    <view class="tip-item">2. 分享给好友或生成海报保存到相册</view>
+    <view class="tip-item">3. 好友通过您的链接购买商品</view>
+    <view class="tip-item">4. 订单完成后，佣金自动到账</view>
+  </view>
+</view>

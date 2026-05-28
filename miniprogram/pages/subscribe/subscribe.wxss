@@ -1,0 +1,100 @@
+.subscribe-page {
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.sub-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.item-left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background: #f0f0f0;
+}
+
+.item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.verify-badge {
+  width: 32rpx;
+  height: 32rpx;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-meta {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.item-meta text {
+  margin-right: 20rpx;
+}
+
+.btn-sm {
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 24rpx;
+  font-size: 24rpx;
+  border-radius: 28rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 100rpx 40rpx;
+}
+
+.empty image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-tip {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+  margin-bottom: 32rpx;
+}
+
+.empty .btn {
+  width: 60%;
+}

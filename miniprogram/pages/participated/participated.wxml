@@ -1,0 +1,95 @@
+<view class="participated-page">
+  <view class="tabs">
+    <view 
+      class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="id"
+      bindtap="switchTab"
+      data-id="{{item.id}}"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <view class="order-list" wx:if="{{list.length > 0}}">
+    <view class="order-card" wx:for="{{list}}" wx:key="id">
+      <view class="order-header">
+        <view class="order-no">
+          订单号: {{item.orderNo || item.goodsId}}
+          <text class="tag tag-{{item.type}}">
+            {{item.type === 'auction' ? '竞价' : item.type === 'fixed' ? '一口价' : item.type === 'group' ? '拼团' : '秒杀'}}
+          </text>
+        </view>
+        <view class="order-status {{item.status}}">
+          {{item.status === 'pending' ? '待付款' : 
+            item.status === 'paid' ? '待发货' : 
+            item.status === 'shipped' ? '待收货' : 
+            item.status === 'completed' ? '已完成' : 
+            item.status === 'active' ? '进行中' : 
+            item.status === 'ended' ? '已结束' : '已取消'}}
+        </view>
+      </view>
+
+      <view class="order-content" bindtap="goDetail" data-id="{{item.goodsId || item.id}}">
+        <image src="{{item.images[0]}}" class="goods-img" mode="aspectFill"></image>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="goods-price">
+            <text class="price">{{item.currentPrice || item.price}}</text>
+            <text class="quantity" wx:if="{{item.quantity}}">x{{item.quantity}}</text>
+          </view>
+          <view class="order-meta">
+            <text wx:if="{{item.bidAmount}}">出价: ¥{{item.bidAmount}}</text>
+            <text wx:if="{{item.winner === true}}" class="text-success">✓ 已得标</text>
+            <text wx:if="{{item.countdown && !item.countdown.ended}}" class="countdown-text">
+              ⏰ {{item.countdown.text}}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="order-footer">
+        <view class="order-amount">
+          <text class="amount-label">{{activeTab === 'sold' ? '收入' : '实付'}}</text>
+          <text class="amount-value">¥{{item.amount || (item.currentPrice || item.price)}}</text>
+        </view>
+        <view class="order-actions">
+          <block wx:if="{{activeTab === 'published'}}">
+            <button class="btn btn-outline btn-sm" wx:if="{{item.status === 'active'}}" bindtap="handleOrder" data-action="offline" data-id="{{item.id}}">
+              下架
+            </button>
+            <button class="btn btn-primary btn-sm" wx:if="{{item.status === 'paid'}}" bindtap="handleOrder" data-action="ship" data-id="{{item.id}}">
+              发货
+            </button>
+          </block>
+          <block wx:if="{{activeTab === 'purchased'}}">
+            <button class="btn btn-outline btn-sm" wx:if="{{item.status === 'pending'}}" bindtap="payOrder" data-id="{{item.id}}">
+              去支付
+            </button>
+            <button class="btn btn-primary btn-sm" wx:if="{{item.status === 'shipped'}}" bindtap="handleOrder" data-action="confirm" data-id="{{item.id}}">
+              确认收货
+            </button>
+          </block>
+          <block wx:if="{{activeTab === 'joined' && item.type === 'auction'}}">
+            <button class="btn btn-primary btn-sm" wx:if="{{item.status === 'active' && item.countdown && !item.countdown.ended}}" bindtap="goDetail" data-id="{{item.goodsId}}">
+              继续出价
+            </button>
+          </block>
+          <button class="btn btn-outline btn-sm" bindtap="handleOrder" data-action="delete" data-id="{{item.id}}">
+            删除
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=empty%20order&image_size=square"></image>
+    <view>暂无{{tabs.find(t => t.id === activeTab).name}}记录</view>
+    <button class="btn btn-primary" bindtap="switchTab" data-id="published" wx:if="{{activeTab !== 'published'}}">
+      去发布商品
+    </button>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>

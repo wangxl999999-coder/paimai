@@ -1,0 +1,237 @@
+<view class="detail-page" wx:if="{{goods}}">
+  <swiper class="image-swiper" indicator-dots autoplay circular bindchange="onImageChange">
+    <swiper-item wx:for="{{goods.images}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="goods-info card">
+    <view class="goods-header">
+      <view class="price-row">
+        <text class="current-price">{{goods.priceText}}</text>
+        <text class="original-price" wx:if="{{goods.originalPriceText}}">{{goods.originalPriceText}}</text>
+        <view class="tag tag-{{goods.type}}">
+          {{goods.type === 'auction' ? '竞价拍卖' : goods.type === 'fixed' ? '一口价' : goods.type === 'group' ? '阶梯拼团' : '限时秒杀'}}
+        </view>
+      </view>
+      <view class="countdown-info" wx:if="{{goods.endTime}}">
+        <view class="countdown" wx:if="{{!countdown.ended}}">
+          <text>⏰ 距结束</text>
+          <text class="num">{{countdown.days || '00'}}</text>天
+          <text class="num">{{countdown.hours || '00'}}</text>:
+          <text class="num">{{countdown.minutes || '00'}}</text>:
+          <text class="num">{{countdown.seconds || '00'}}</text>
+        </view>
+        <view class="ended-text" wx:else>已结束</view>
+      </view>
+    </view>
+
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="goods-desc">{{goods.description}}</view>
+
+    <view class="goods-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{goods.viewCount || 0}}</text>
+        <text class="stat-label">浏览</text>
+      </view>
+      <view class="stat-item" wx:if="{{goods.type === 'auction'}}">
+        <text class="stat-value">{{goods.bidCount || 0}}</text>
+        <text class="stat-label">出价</text>
+      </view>
+      <view class="stat-item" wx:if="{{goods.type === 'group'}}">
+        <text class="stat-value">{{goods.joinedCount || 0}}</text>
+        <text class="stat-label">已拼</text>
+      </view>
+      <view class="stat-item" wx:if="{{goods.type === 'seckill'}}">
+        <text class="stat-value">{{goods.soldCount || 0}}</text>
+        <text class="stat-label">已抢</text>
+      </view>
+      <view class="stat-item" wx:else>
+        <text class="stat-value">{{goods.soldCount || 0}}</text>
+        <text class="stat-label">已售</text>
+      </view>
+    </view>
+
+    <view class="step-prices" wx:if="{{goods.type === 'group' && goods.stepPrices}}">
+      <view class="step-title">阶梯价格</view>
+      <view class="step-list">
+        <view class="step-item {{item.reached ? 'reached' : ''}}" wx:for="{{goods.stepPrices}}" wx:key="count">
+          <text>{{item.count}}人团</text>
+          <text class="step-price">¥{{item.price}}</text>
+          <text class="step-status">{{item.reached ? '已达成' : '未达成'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="auction-info" wx:if="{{goods.type === 'auction'}}">
+      <view class="info-row">
+        <text class="label">起拍价</text>
+        <text class="value">¥{{goods.startPrice}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">加价幅度</text>
+        <text class="value">¥{{goods.minIncrement}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">当前最高</text>
+        <text class="value text-primary">¥{{goods.currentPrice}}</text>
+      </view>
+      <view class="info-row" wx:if="{{goods.reservePrice}}">
+        <text class="label">保留价</text>
+        <text class="value">有保留价</text>
+      </view>
+    </view>
+
+    <view class="seckill-info" wx:if="{{goods.type === 'seckill'}}">
+      <view class="info-row">
+        <text class="label">原价</text>
+        <text class="value line-through">¥{{goods.originalPrice}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">秒杀价</text>
+        <text class="value text-primary">¥{{goods.price}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">库存</text>
+        <text class="value">{{goods.stock}}件</text>
+      </view>
+      <view class="info-row">
+        <text class="label">每人限购</text>
+        <text class="value">{{goods.limitPerUser || 1}}件</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="seller-info card" bindtap="goStore">
+    <view class="seller-avatar">
+      <image src="{{goods.seller.avatar}}" class="avatar"></image>
+      <view class="seller-badge" wx:if="{{goods.seller.isVerified}}">V</view>
+    </view>
+    <view class="seller-detail">
+      <view class="seller-name">
+        {{goods.seller.nickname}}
+        <text class="tag tag-welfare" wx:if="{{goods.seller.hasWelfare}}">福利拍卖</text>
+      </view>
+      <view class="seller-stats">
+        <text>粉丝 {{goods.seller.fansCount || 0}}</text>
+        <text>商品 {{goods.seller.goodsCount || 0}}</text>
+      </view>
+    </view>
+    <view class="subscribe-btn {{isSubscribed ? 'subscribed' : ''}}" catchtap="toggleSubscribe">
+      {{isSubscribed ? '已订阅' : '+ 订阅'}}
+    </view>
+  </view>
+
+  <view class="bid-records card" wx:if="{{goods.type === 'auction' && bidRecords.length > 0}}">
+    <view class="section-title">出价记录</view>
+    <view class="bid-list">
+      <view class="bid-item" wx:for="{{bidRecords}}" wx:key="id">
+        <image src="{{item.user.avatar}}" class="avatar-sm"></image>
+        <view class="bid-info">
+          <text class="bid-user">{{item.user.nickname}}</text>
+          <text class="bid-time">{{item.timeText}}</text>
+        </view>
+        <text class="bid-amount">¥{{item.amount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="goods-params card">
+    <view class="section-title">商品参数</view>
+    <view class="params-list">
+      <view class="param-item" wx:if="{{goods.category}}">
+        <text class="param-label">分类</text>
+        <text class="param-value">{{goods.category}}</text>
+      </view>
+      <view class="param-item" wx:if="{{goods.condition}}">
+        <text class="param-label">成色</text>
+        <text class="param-value">{{goods.condition}}</text>
+      </view>
+      <view class="param-item" wx:if="{{goods.location}}">
+        <text class="param-label">发货地</text>
+        <text class="param-value">{{goods.location}}</text>
+      </view>
+      <view class="param-item" wx:if="{{goods.shippingFee !== undefined}}">
+        <text class="param-label">运费</text>
+        <text class="param-value">{{goods.shippingFee === 0 ? '包邮' : '¥' + goods.shippingFee}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="commission-tip card" bindtap="showShareModal">
+    <view class="tip-icon">💰</view>
+    <view class="tip-content">
+      <view class="tip-title">分享赚佣金</view>
+      <view class="tip-desc">分享给好友，好友购买后您可获得 ¥{{goods.commission || 0}} 佣金</view>
+    </view>
+    <view class="tip-arrow">></view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="bar-left">
+      <view class="bar-item" bindtap="goStore">
+        <text class="bar-icon">🏠</text>
+        <text class="bar-text">店铺</text>
+      </view>
+      <view class="bar-item" bindtap="showShareModal">
+        <text class="bar-icon">📤</text>
+        <text class="bar-text">分享</text>
+      </view>
+      <view class="bar-item" bindtap="toggleSubscribe">
+        <text class="bar-icon">{{isSubscribed ? '✅' : '➕'}}</text>
+        <text class="bar-text">{{isSubscribed ? '已订' : '订阅'}}</text>
+      </view>
+    </view>
+    <view class="bar-right">
+      <block wx:if="{{goods.type === 'auction'}}">
+        <input 
+          class="bid-input" 
+          placeholder="输入出价" 
+          type="digit" 
+          value="{{bidAmount}}"
+          bindinput="onBidInput"
+        />
+        <button class="btn btn-primary bid-btn" bindtap="bid" disabled="{{countdown.ended}}">
+          {{countdown.ended ? '已结束' : '出价'}}
+        </button>
+      </block>
+      <block wx:elif="{{goods.type === 'fixed'}}">
+        <button class="btn btn-outline" bindtap="buyNow" disabled="{{goods.stock === 0}}">
+          {{goods.stock === 0 ? '已售罄' : '立即购买'}}
+        </button>
+      </block>
+      <block wx:elif="{{goods.type === 'group'}}">
+        <button class="btn btn-primary" bindtap="joinGroup" disabled="{{countdown.ended}}">
+          {{countdown.ended ? '已结束' : '立即拼团'}}
+        </button>
+      </block>
+      <block wx:elif="{{goods.type === 'seckill'}}">
+        <button class="btn btn-primary" bindtap="seckillBuy" disabled="{{countdown.ended || goods.stock === 0}}">
+          {{countdown.ended ? '已结束' : goods.stock === 0 ? '已抢光' : '立即秒杀'}}
+        </button>
+      </block>
+    </view>
+  </view>
+
+  <view class="share-modal" wx:if="{{showShare}}" bindtap="hideShareModal">
+    <view class="share-content" catchtap="">
+      <view class="share-title">分享赚佣金</view>
+      <view class="share-desc">好友通过您分享的链接购买后，您可获得佣金奖励</view>
+      <view class="share-amount">预计佣金: <text class="text-primary text-xl">¥{{goods.commission || 0}}</text></view>
+      <button class="btn btn-primary btn-block" open-type="share">
+        微信分享
+      </button>
+      <button class="btn btn-outline btn-block" bindtap="copyShareLink">
+        复制链接
+      </button>
+      <button class="btn btn-outline btn-block" bindtap="savePoster">
+        生成海报
+      </button>
+      <button class="btn btn-outline btn-block" bindtap="hideShareModal">
+        取消
+      </button>
+    </view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{!goods}}">加载中...</view>

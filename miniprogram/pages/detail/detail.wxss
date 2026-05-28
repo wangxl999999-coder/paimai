@@ -1,0 +1,462 @@
+.detail-page {
+  padding-bottom: 140rpx;
+}
+
+.image-swiper {
+  width: 100%;
+  height: 600rpx;
+  background: #f0f0f0;
+}
+
+.image-swiper image {
+  width: 100%;
+  height: 100%;
+}
+
+.goods-info {
+  margin: 20rpx;
+}
+
+.goods-header {
+  margin-bottom: 16rpx;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 12rpx;
+}
+
+.current-price {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff6b35;
+  margin-right: 16rpx;
+}
+
+.original-price {
+  font-size: 28rpx;
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 16rpx;
+}
+
+.countdown-info {
+  margin-top: 8rpx;
+}
+
+.countdown {
+  display: inline-flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #f44336;
+}
+
+.countdown .num {
+  background: #f44336;
+  color: #fff;
+  padding: 4rpx 10rpx;
+  border-radius: 6rpx;
+  margin: 0 4rpx;
+  font-size: 24rpx;
+}
+
+.ended-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.goods-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+}
+
+.goods-desc {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.goods-stats {
+  display: flex;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.step-prices {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.step-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+
+.step-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.step-item {
+  flex: 1;
+  min-width: calc(33.33% - 12rpx);
+  padding: 16rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  text-align: center;
+}
+
+.step-item.reached {
+  background: #e8f5e9;
+}
+
+.step-item .step-price {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff6b35;
+  margin: 8rpx 0;
+}
+
+.step-item.reached .step-price {
+  color: #07c160;
+}
+
+.step-status {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.step-item.reached .step-status {
+  color: #07c160;
+}
+
+.auction-info, .seckill-info {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rpx 0;
+}
+
+.info-row .label {
+  color: #666;
+}
+
+.info-row .value {
+  color: #333;
+  font-weight: 500;
+}
+
+.line-through {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.seller-info {
+  display: flex;
+  align-items: center;
+  margin: 0 20rpx 20rpx;
+}
+
+.seller-avatar {
+  position: relative;
+  margin-right: 20rpx;
+}
+
+.seller-avatar .avatar {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.seller-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32rpx;
+  height: 32rpx;
+  background: #ff6b35;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seller-detail {
+  flex: 1;
+}
+
+.seller-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
+}
+
+.seller-stats {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.seller-stats text {
+  margin-right: 20rpx;
+}
+
+.subscribe-btn {
+  padding: 12rpx 32rpx;
+  background: #ff6b35;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+}
+
+.subscribe-btn.subscribed {
+  background: #f0f0f0;
+  color: #999;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.bid-records {
+  margin: 0 20rpx 20rpx;
+}
+
+.bid-list {
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.bid-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.bid-item:last-child {
+  border-bottom: none;
+}
+
+.avatar-sm {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.bid-info {
+  flex: 1;
+}
+
+.bid-user {
+  display: block;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.bid-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.bid-amount {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ff6b35;
+}
+
+.goods-params {
+  margin: 0 20rpx 20rpx;
+}
+
+.params-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.param-item {
+  width: 50%;
+  display: flex;
+  padding: 12rpx 0;
+}
+
+.param-label {
+  color: #999;
+  width: 120rpx;
+}
+
+.param-value {
+  color: #333;
+  flex: 1;
+}
+
+.commission-tip {
+  display: flex;
+  align-items: center;
+  margin: 0 20rpx 20rpx;
+  background: linear-gradient(135deg, #fff5f0, #fff0e8);
+}
+
+.tip-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.tip-content {
+  flex: 1;
+}
+
+.tip-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff6b35;
+  margin-bottom: 4rpx;
+}
+
+.tip-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.tip-arrow {
+  color: #999;
+  font-size: 32rpx;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.bar-left {
+  display: flex;
+  margin-right: 20rpx;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 32rpx;
+}
+
+.bar-icon {
+  font-size: 40rpx;
+  margin-bottom: 4rpx;
+}
+
+.bar-text {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.bar-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.bid-input {
+  flex: 1;
+  height: 72rpx;
+  background: #f5f5f5;
+  border-radius: 36rpx;
+  padding: 0 24rpx;
+  margin-right: 16rpx;
+  font-size: 28rpx;
+}
+
+.bid-btn {
+  flex-shrink: 0;
+}
+
+.share-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.share-content {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 40rpx;
+}
+
+.share-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+.share-desc {
+  font-size: 26rpx;
+  color: #666;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.share-amount {
+  text-align: center;
+  margin-bottom: 40rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.share-content .btn {
+  margin-bottom: 20rpx;
+}

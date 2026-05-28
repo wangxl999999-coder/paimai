@@ -1,0 +1,16 @@
+{
+  "name": "paimai-miniprogram",
+  "version": "1.0.0",
+  "description": "拍卖微信小程序 - 支持竞价拍卖、一口价、阶梯拼团、秒杀活动",
+  "main": "server/app.js",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../admin && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:admin": "cd admin && npm run serve",
+    "build:admin": "cd admin && npm run build",
+    "start": "cd server && npm start"
+  },
+  "keywords": ["wechat", "miniprogram", "auction", "paimai"],
+  "author": "paimai",
+  "license": "MIT"
+}

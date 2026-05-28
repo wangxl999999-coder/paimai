@@ -1,0 +1,74 @@
+<view class="store-page" wx:if="{{store}}">
+  <view class="store-header">
+    <view class="store-bg"></view>
+    <view class="store-info">
+      <image src="{{store.avatar}}" class="store-avatar"></image>
+      <view class="store-detail">
+        <view class="store-name">
+          {{store.storeName || store.nickname}}
+          <text class="verify-badge" wx:if="{{store.isVerified}}">✓</text>
+          <text class="tag tag-welfare" wx:if="{{store.hasWelfare}}">福利拍卖</text>
+        </view>
+        <view class="store-desc">{{store.storeDesc || '这家店很懒，什么都没写'}}</view>
+        <view class="store-stats">
+          <text>粉丝 {{store.fansCount || 0}}</text>
+          <text>商品 {{store.goodsCount || 0}}</text>
+        </view>
+      </view>
+      <button class="subscribe-btn {{isSubscribed ? 'subscribed' : ''}}" bindtap="toggleSubscribe">
+        {{isSubscribed ? '已订阅' : '+ 订阅'}}
+      </button>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <scroll-view scroll-x>
+      <view class="tab-list">
+        <view 
+          class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
+          wx:for="{{tabs}}" 
+          wx:key="id"
+          bindtap="switchTab"
+          data-id="{{item.id}}"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="goods-grid" wx:if="{{goodsList.length > 0}}">
+    <view class="goods-item" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="goods-image {{item.status === 'ended' ? 'ended' : ''}} {{item.stock === 0 ? 'sold-out' : ''}}">
+        <image src="{{item.images[0]}}" mode="aspectFill"></image>
+        <view class="goods-type tag tag-{{item.type}}">
+          {{item.type === 'auction' ? '竞价' : item.type === 'fixed' ? '一口价' : item.type === 'group' ? '拼团' : '秒杀'}}
+        </view>
+        <view class="countdown" wx:if="{{item.countdown && !item.countdown.ended}}">
+          <text>⏰ {{item.countdown.text}}</text>
+        </view>
+      </view>
+      <view class="goods-info">
+        <view class="goods-title">{{item.title}}</view>
+        <view class="goods-price">
+          <text class="price">{{item.currentPrice || item.price}}</text>
+        </view>
+        <view class="goods-meta">
+          <text wx:if="{{item.type === 'auction'}}">{{item.bidCount}}次出价</text>
+          <text wx:elif="{{item.type === 'group'}}">{{item.joinedCount}}人已拼</text>
+          <text wx:elif="{{item.type === 'seckill'}}">已抢{{item.soldCount}}件</text>
+          <text wx:else>已售{{item.soldCount}}件</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{goodsList.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=empty%20store&image_size=square"></image>
+    <view>暂无商品</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>
+
+<view class="loading" wx:if="{{!store}}">加载中...</view>

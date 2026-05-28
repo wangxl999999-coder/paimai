@@ -1,0 +1,47 @@
+<view class="faq-page">
+  <view class="search-bar" bindtap="goContact">
+    <text>没有找到答案？</text>
+    <text class="link">联系客服</text>
+  </view>
+
+  <scroll-view scroll-x class="category-bar" wx:if="{{categories.length > 0}}">
+    <view class="category-list">
+      <view 
+        class="category-item {{(activeCategory === '' && item === '全部') ? 'active' : activeCategory === item ? 'active' : ''}}"
+        wx:for="{{categories}}" 
+        wx:key="*this"
+        bindtap="switchCategory"
+        data-category="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="faq-list" wx:if="{{list.length > 0}}">
+    <view 
+      class="faq-item" 
+      wx:for="{{list}}" 
+      wx:key="id"
+      bindtap="toggleExpand"
+      data-id="{{item.id}}"
+    >
+      <view class="faq-question">
+        <text class="q-icon">Q</text>
+        <text class="q-text">{{item.question}}</text>
+        <text class="arrow {{expandedId === item.id ? 'expanded' : ''}}">></text>
+      </view>
+      <view class="faq-answer {{expandedId === item.id ? 'show' : ''}}">
+        <text class="a-icon">A</text>
+        <text class="a-text">{{item.answer}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=faq%20empty&image_size=square"></image>
+    <view>暂无相关问题</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>

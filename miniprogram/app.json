@@ -1,0 +1,68 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/detail/detail",
+    "pages/publish/publish",
+    "pages/participated/participated",
+    "pages/mine/mine",
+    "pages/store/store",
+    "pages/login/login",
+    "pages/commission/commission",
+    "pages/withdraw/withdraw",
+    "pages/faq/faq",
+    "pages/contact/contact",
+    "pages/search/search",
+    "pages/share/share",
+    "pages/auction/bid",
+    "pages/groupbuy/groupbuy",
+    "pages/seckill/seckill",
+    "pages/fixedprice/fixedprice",
+    "pages/subscribe/subscribe",
+    "pages/welfare/welfare"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ff6b35",
+    "navigationBarTitleText": "拍卖平台",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6b35",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "images/tab/publish.png",
+        "selectedIconPath": "images/tab/publish-active.png"
+      },
+      {
+        "pagePath": "pages/participated/participated",
+        "text": "已参与",
+        "iconPath": "images/tab/order.png",
+        "selectedIconPath": "images/tab/order-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab/mine.png",
+        "selectedIconPath": "images/tab/mine-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于展示附近的拍卖商品"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

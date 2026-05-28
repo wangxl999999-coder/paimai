@@ -1,0 +1,84 @@
+<view class="withdraw-page">
+  <view class="amount-card">
+    <view class="card-title">可提现金额（元）</view>
+    <view class="card-amount">¥{{availableAmount}}</view>
+    <view class="all-btn" bindtap="setAll">全部提现</view>
+  </view>
+
+  <view class="form-card">
+    <view class="form-item">
+      <view class="item-label">提现金额</view>
+      <view class="amount-input">
+        <text class="symbol">¥</text>
+        <input 
+          type="digit" 
+          placeholder="请输入金额" 
+          value="{{amount}}"
+          data-field="amount"
+          bindinput="onInput"
+        />
+      </view>
+      <view class="tip">最低提现10元，手续费1%</view>
+    </view>
+
+    <view class="form-item">
+      <view class="item-label">提现方式</view>
+      <view class="type-list">
+        <view 
+          class="type-item {{type === item.id ? 'active' : ''}}" 
+          wx:for="{{types}}" 
+          wx:key="id"
+          bindtap="selectType"
+          data-type="{{item.id}}"
+        >
+          <text class="type-icon">{{item.icon}}</text>
+          <text class="type-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="item-label">{{type === 'bank' ? '银行卡号' : type === 'alipay' ? '支付宝账号' : '微信号'}}</view>
+      <input 
+        class="input" 
+        placeholder="请输入账号" 
+        value="{{account}}"
+        data-field="account"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="item-label">真实姓名</view>
+      <input 
+        class="input" 
+        placeholder="请输入真实姓名" 
+        value="{{accountName}}"
+        data-field="accountName"
+        bindinput="onInput"
+      />
+    </view>
+
+    <button class="btn btn-primary btn-block submit-btn" bindtap="submit">
+      提交申请
+    </button>
+  </view>
+
+  <view class="records-card" wx:if="{{list.length > 0}}">
+    <view class="card-title">提现记录</view>
+    <view class="record-item" wx:for="{{list}}" wx:key="id">
+      <view class="record-info">
+        <view class="record-amount">-¥{{item.amount}}</view>
+        <view class="record-time">{{item.timeText}}</view>
+      </view>
+      <view class="record-status {{item.status}}">
+        {{item.status === 'pending' ? '待审核' : 
+          item.status === 'approved' ? '已通过' : 
+          item.status === 'paid' ? '已打款' : 
+          item.status === 'rejected' ? '已拒绝' : '失败'}}
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>

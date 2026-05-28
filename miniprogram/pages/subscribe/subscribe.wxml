@@ -1,0 +1,34 @@
+<view class="subscribe-page">
+  <view class="sub-list" wx:if="{{list.length > 0}}">
+    <view class="sub-item" wx:for="{{list}}" wx:key="id">
+      <view class="item-left" bindtap="goStore" data-id="{{item.id}}">
+        <image src="{{item.avatar}}" class="avatar"></image>
+        <view class="item-info">
+          <view class="item-name">
+            {{item.storeName || item.nickname}}
+            <text class="verify-badge" wx:if="{{item.isVerified}}">✓</text>
+            <text class="tag tag-welfare" wx:if="{{item.hasWelfare}}">福利</text>
+          </view>
+          <view class="item-meta">
+            <text>粉丝 {{item.fansCount || 0}}</text>
+            <text>商品 {{item.goodsCount || 0}}</text>
+          </view>
+        </view>
+      </view>
+      <button class="btn btn-outline btn-sm" catchtap="unsubscribe" data-id="{{item.id}}">
+        取消订阅
+      </button>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length === 0 && !loading}}">
+    <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=subscribe%20empty&image_size=square"></image>
+    <view>暂无订阅</view>
+    <view class="empty-tip">关注喜欢的店铺，第一时间获取新品动态</view>
+    <button class="btn btn-primary" bindtap="goBack">
+      去逛逛
+    </button>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>
