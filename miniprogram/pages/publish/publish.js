@@ -41,6 +41,8 @@ Page({
       { value: '14', label: '14天' },
       { value: '30', label: '30天' }
     ],
+    currentTypeName: '',
+    currentDurationLabel: '7天',
     showStepPriceModal: false,
     newStep: { count: '', price: '' }
   },
@@ -53,7 +55,11 @@ Page({
 
   selectType(e) {
     const type = e.currentTarget.dataset.type;
-    this.setData({ activeType: type });
+    const typeInfo = this.data.types.find(t => t.id === type);
+    this.setData({ 
+      activeType: type,
+      currentTypeName: typeInfo ? typeInfo.name : ''
+    });
     this.initStepPrices(type);
   },
 
@@ -89,8 +95,11 @@ Page({
   },
 
   selectDuration(e) {
-    const duration = this.data.durations[e.detail.value].value;
-    this.setData({ 'form.duration': duration });
+    const durationInfo = this.data.durations[e.detail.value];
+    this.setData({ 
+      'form.duration': durationInfo.value,
+      currentDurationLabel: durationInfo.label
+    });
   },
 
   selectStartTime(e) {

@@ -20,7 +20,7 @@
     <view class="form-card">
       <view class="form-header">
         <text class="back-btn" bindtap="resetForm">← 返回选择类型</text>
-        <text class="current-type">{{types.find(t => t.id === activeType).name}}</text>
+        <text class="current-type">{{currentTypeName}}</text>
       </view>
 
       <view class="form-item">
@@ -249,7 +249,7 @@
         <view class="item-label">持续时间</view>
         <picker range="{{durations}}" range-key="label" bindchange="selectDuration">
           <view class="picker">
-            {{durations.find(d => d.value === form.duration).label}}
+            {{currentDurationLabel}}
             <text class="arrow">></text>
           </view>
         </picker>

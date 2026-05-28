@@ -91,7 +91,21 @@
     >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分类" prop="category">
-          <el-input v-model="form.category" placeholder="请输入分类" />
+          <el-select 
+            v-model="form.category" 
+            placeholder="请选择或输入分类"
+            filterable
+            allow-create
+            default-first-option
+            style="width: 100%"
+          >
+            <el-option 
+              v-for="cat in allCategories" 
+              :key="cat" 
+              :label="cat" 
+              :value="cat" 
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="问题" prop="question">
           <el-input v-model="form.question" placeholder="请输入问题" />
@@ -133,6 +147,8 @@ const dialogVisible = ref(false)
 const formRef = ref()
 const isEdit = ref(false)
 const categories = ref([])
+const defaultCategories = ['账户相关', '交易流程', '佣金提现', '商品发布', '拍卖规则', '拼团规则', '秒杀规则', '其他']
+const allCategories = ref([...defaultCategories])
 
 const filter = reactive({
   category: '',
@@ -164,8 +180,15 @@ const rules = {
 }
 
 const loadCategories = async () => {
-  const res = await request.get('/admin/faqs/categories')
-  categories.value = res.categories || []
+  try {
+    const res = await request.get('/admin/faqs/categories')
+    const dbCategories = res.categories || []
+    categories.value = dbCategories
+    const merged = [...new Set([...defaultCategories, ...dbCategories])]
+    allCategories.value = merged
+  } catch (e) {
+    allCategories.value = [...defaultCategories]
+  }
 }
 
 const loadList = async () => {
@@ -178,7 +201,10 @@ const loadList = async () => {
         ...filter
       }
     })
-    list.value = res.list || []
+    list.value = (res.list || []).map(item => ({
+      ...item,
+      sort: item.sortOrder ?? item.sort ?? 0
+    }))
     pagination.total = res.total || 0
   } finally {
     loading.value = false
@@ -237,7 +263,7 @@ const handleEdit = (row) => {
   form.category = row.category
   form.question = row.question
   form.answer = row.answer
-  form.sort = row.sort
+  form.sort = row.sortOrder ?? row.sort ?? 0
   form.status = row.status
   dialogVisible.value = true
 }
@@ -258,6 +284,9 @@ const submitForm = async () => {
     loadList()
   } catch (error) {
     console.error(error)
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
   } finally {
     submitting.value = false
   }

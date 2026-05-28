@@ -85,7 +85,7 @@
 
   <view class="empty" wx:if="{{list.length === 0 && !loading}}">
     <image src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=empty%20order&image_size=square"></image>
-    <view>暂无{{tabs.find(t => t.id === activeTab).name}}记录</view>
+    <view>暂无{{currentTabName}}记录</view>
     <button class="btn btn-primary" bindtap="switchTab" data-id="published" wx:if="{{activeTab !== 'published'}}">
       去发布商品
     </button>

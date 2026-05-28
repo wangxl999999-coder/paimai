@@ -9,6 +9,7 @@ Page({
       { id: 'sold', name: '我卖出的' }
     ],
     activeTab: 'published',
+    currentTabName: '我发布的',
     list: [],
     page: 1,
     pageSize: 10,
@@ -18,7 +19,8 @@ Page({
 
   onLoad(options) {
     if (options.tab) {
-      this.setData({ activeTab: options.tab });
+      const tab = this.data.tabs.find(t => t.id === options.tab);
+      this.setData({ activeTab: options.tab, currentTabName: tab ? tab.name : '我发布的' });
     }
     this.loadList();
   },
@@ -45,7 +47,14 @@ Page({
 
   switchTab(e) {
     const id = e.currentTarget.dataset.id;
-    this.setData({ activeTab: id, page: 1, hasMore: true, list: [] });
+    const tab = this.data.tabs.find(t => t.id === id);
+    this.setData({ 
+      activeTab: id, 
+      currentTabName: tab ? tab.name : '', 
+      page: 1, 
+      hasMore: true, 
+      list: [] 
+    });
     this.loadList();
   },
 

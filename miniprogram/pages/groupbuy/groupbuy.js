@@ -29,11 +29,16 @@ Page({
       data: { id: this.data.goodsId }
     }).then(res => {
       wx.hideLoading();
-      const tiers = res.groupTiers || [
+      const originalPrice = parseFloat(res.originalPrice) || parseFloat(res.price) || 0;
+      const tiers = (res.groupTiers || [
         { minCount: 2, price: res.price * 0.9 },
         { minCount: 5, price: res.price * 0.8 },
         { minCount: 10, price: res.price * 0.7 }
-      ];
+      ]).map(tier => ({
+        ...tier,
+        price: parseFloat(tier.price).toFixed(2),
+        saveAmount: (originalPrice - parseFloat(tier.price)).toFixed(2)
+      }));
       this.setData({
         goods: res,
         tiers,

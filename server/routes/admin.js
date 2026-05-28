@@ -514,7 +514,7 @@ router.get('/faqs', async (req, res) => {
     
     const { count, rows } = await FAQ.findAndCountAll({
       where,
-      order: [['sort', 'ASC'], ['id', 'DESC']],
+      order: [['sortOrder', 'ASC'], ['id', 'DESC']],
       offset: (page - 1) * pageSize,
       limit: Number(pageSize)
     });
@@ -549,22 +549,34 @@ router.get('/faqs/categories', async (req, res) => {
 router.post('/faqs/create', async (req, res) => {
   try {
     const { category, question, answer, sort = 0, status = 'active' } = req.body;
-    const faq = await FAQ.create({ category, question, answer, sort, status });
+    const faq = await FAQ.create({ 
+      category: category || '通用', 
+      question, 
+      answer, 
+      sortOrder: sort, 
+      status 
+    });
     res.json({ code: 200, data: { id: faq.id } });
   } catch (err) {
     console.error(err);
-    res.json({ code: 500, message: '创建失败' });
+    res.json({ code: 500, message: '创建失败: ' + err.message });
   }
 });
 
 router.post('/faqs/update', async (req, res) => {
   try {
     const { id, category, question, answer, sort, status } = req.body;
-    await FAQ.update({ category, question, answer, sort, status }, { where: { id } });
+    await FAQ.update({ 
+      category: category || '通用', 
+      question, 
+      answer, 
+      sortOrder: sort, 
+      status 
+    }, { where: { id } });
     res.json({ code: 200, data: null });
   } catch (err) {
     console.error(err);
-    res.json({ code: 500, message: '更新失败' });
+    res.json({ code: 500, message: '更新失败: ' + err.message });
   }
 });
 

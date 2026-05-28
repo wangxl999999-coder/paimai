@@ -21,7 +21,7 @@
       <view class="tier-item {{index === currentTierIndex ? 'active' : ''}}" wx:for="{{tiers}}" wx:key="index">
         <view class="tier-count">{{item.minCount}}人团</view>
         <view class="tier-price">¥{{item.price}}</view>
-        <view class="tier-save">省¥{{(goods.originalPrice - item.price).toFixed(2)}}</view>
+        <view class="tier-save">省¥{{item.saveAmount}}</view>
       </view>
     </view>
   </view>
