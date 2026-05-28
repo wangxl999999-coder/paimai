@@ -1,0 +1,60 @@
+<view class="container">
+  <swiper class="banner-swiper" indicator-dots autoplay circular>
+    <swiper-item wx:for="{{goods.images || [goods.image]}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="goods-info">
+    <view class="price-section">
+      <view class="current-price">¥{{currentTier.price}}</view>
+      <view class="original-price">¥{{goods.originalPrice}}</view>
+      <view class="group-tip">当前{{currentCount}}人团</view>
+    </view>
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="goods-desc">{{goods.description}}</view>
+  </view>
+
+  <view class="tier-section">
+    <view class="section-title">阶梯价格</view>
+    <view class="tier-list">
+      <view class="tier-item {{index === currentTierIndex ? 'active' : ''}}" wx:for="{{tiers}}" wx:key="index">
+        <view class="tier-count">{{item.minCount}}人团</view>
+        <view class="tier-price">¥{{item.price}}</view>
+        <view class="tier-save">省¥{{(goods.originalPrice - item.price).toFixed(2)}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="group-progress">
+    <view class="progress-info">
+      <text>当前已有 {{currentCount}} 人参与</text>
+      <text>还差 {{diffCount}} 人即可享 ¥{{nextTierPrice}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+    </view>
+  </view>
+
+  <view class="group-list">
+    <view class="section-title">正在进行的拼团 ({{groups.length}})</view>
+    <view class="group-item" wx:for="{{groups}}" wx:key="id">
+      <view class="group-members">
+        <image wx:for="{{item.members}}" wx:for-item="member" wx:key="id" src="{{member.avatar}}" class="member-avatar"></image>
+        <view class="member-count" wx:if="{{item.memberCount > 3}}">+{{item.memberCount - 3}}</view>
+      </view>
+      <view class="group-info">
+        <view class="group-leader">{{item.leaderName}}的团</view>
+        <view class="group-countdown">剩余 {{item.countdown}}</view>
+      </view>
+      <button class="join-btn" bindtap="joinGroup" data-groupid="{{item.id}}">去参团</button>
+    </view>
+    <view class="empty" wx:if="{{groups.length === 0}}">
+      <text>暂无拼团，快来发起第一个吧！</text>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="start-group-btn" bindtap="startGroup">发起拼团</button>
+  </view>
+</view>

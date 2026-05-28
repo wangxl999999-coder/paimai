@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="share-card">
+    <view class="goods-info">
+      <image class="goods-image" src="{{goods.image}}" mode="aspectFill"></image>
+      <view class="goods-detail">
+        <view class="goods-title">{{goods.title}}</view>
+        <view class="goods-price">¥{{goods.currentPrice || goods.price}}</view>
+      </view>
+    </view>
+    
+    <view class="share-tip">
+      <view class="tip-icon">💰</view>
+      <view class="tip-text">
+        <text class="tip-title">分享赚佣金</text>
+        <text class="tip-desc">好友通过您的分享链接购买后，您将获得 ¥{{commissionAmount}} 佣金</text>
+      </view>
+    </view>
+
+    <view class="poster-container">
+      <view class="poster-title">分享海报</view>
+      <view class="poster-preview" wx:if="{{posterImage}}">
+        <image src="{{posterImage}}" mode="widthFix"></image>
+      </view>
+      <view class="poster-placeholder" wx:else>
+        <text>正在生成海报...</text>
+      </view>
+    </view>
+
+    <view class="share-actions">
+      <button class="action-btn save-btn" bindtap="savePoster">
+        <text>保存海报</text>
+      </button>
+      <button class="action-btn share-btn" open-type="share">
+        <text>分享给好友</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="invite-code">
+    <text>我的邀请码：{{inviteCode}}</text>
+    <button class="copy-btn" bindtap="copyCode">复制</button>
+  </view>
+</view>

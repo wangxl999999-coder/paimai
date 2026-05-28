@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="goods-info">
+    <image class="goods-image" src="{{goods.image}}" mode="aspectFill"></image>
+    <view class="goods-detail">
+      <view class="goods-title">{{goods.title}}</view>
+      <view class="price-info">
+        <text class="label">当前价</text>
+        <text class="current-price">¥{{goods.currentPrice}}</text>
+      </view>
+      <view class="countdown" wx:if="{{countdown}}">
+        <text>剩余：{{countdown}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bid-form">
+    <view class="form-title">我要出价</view>
+    <view class="input-group">
+      <text class="input-label">出价金额</text>
+      <input 
+        class="price-input" 
+        type="digit" 
+        placeholder="请输入出价金额"
+        value="{{bidPrice}}"
+        bindinput="onPriceInput"
+      />
+      <text class="price-unit">元</text>
+    </view>
+    <view class="bid-tip">
+      <text>最低加价：¥{{goods.minIncrement || 1}}</text>
+      <text>起拍价：¥{{goods.startPrice}}</text>
+    </view>
+    <view class="quick-bid">
+      <text class="quick-label">快速加价：</text>
+      <view class="quick-btns">
+        <button class="quick-btn" bindtap="quickBid" data-amount="10">+10</button>
+        <button class="quick-btn" bindtap="quickBid" data-amount="50">+50</button>
+        <button class="quick-btn" bindtap="quickBid" data-amount="100">+100</button>
+      </view>
+    </view>
+    <button class="bid-btn" bindtap="submitBid">确认出价</button>
+  </view>
+
+  <view class="bid-records">
+    <view class="section-title">出价记录 ({{records.length}})</view>
+    <view class="record-list">
+      <view class="record-item" wx:for="{{records}}" wx:key="id">
+        <image class="user-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="record-info">
+          <view class="user-nickname">{{item.nickname}}</view>
+          <view class="bid-time">{{item.timeText}}</view>
+        </view>
+        <view class="bid-amount">¥{{item.price}}</view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{records.length === 0}}">
+      <text>暂无出价记录</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,152 @@
+.container {
+  padding: 20rpx;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.share-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+
+.goods-info {
+  display: flex;
+  gap: 20rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.goods-image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+}
+
+.goods-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-title {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-price {
+  font-size: 36rpx;
+  color: #ff6b35;
+  font-weight: bold;
+}
+
+.share-tip {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.tip-icon {
+  font-size: 60rpx;
+}
+
+.tip-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.tip-title {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.tip-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.poster-container {
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.poster-title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  font-weight: bold;
+}
+
+.poster-preview image {
+  width: 100%;
+  border-radius: 12rpx;
+}
+
+.poster-placeholder {
+  height: 400rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.share-actions {
+  display: flex;
+  gap: 20rpx;
+  padding-top: 30rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  border: none;
+}
+
+.save-btn {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.share-btn {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.invite-code {
+  margin-top: 30rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.copy-btn {
+  padding: 10rpx 30rpx;
+  background: #ff6b35;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 30rpx;
+  border: none;
+  line-height: 1.5;
+}

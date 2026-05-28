@@ -1,0 +1,72 @@
+<view class="container">
+  <swiper class="banner-swiper" indicator-dots autoplay circular>
+    <swiper-item wx:for="{{goods.images || [goods.image]}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="goods-info">
+    <view class="price-section">
+      <view class="current-price">¥{{goods.price}}</view>
+      <view class="original-price" wx:if="{{goods.originalPrice > goods.price}}">¥{{goods.originalPrice}}</view>
+      <view class="sales">已售 {{goods.soldCount || 0}}</view>
+    </view>
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="goods-desc">{{goods.description}}</view>
+  </view>
+
+  <view class="store-section" bindtap="goToStore">
+    <image class="store-avatar" src="{{store.avatar}}" mode="aspectFill"></image>
+    <view class="store-info">
+      <view class="store-name">{{store.name}}</view>
+      <view class="store-stats">
+        <text>粉丝 {{store.fansCount || 0}}</text>
+        <text>商品 {{store.goodsCount || 0}}</text>
+      </view>
+    </view>
+    <view class="go-store">进店 ></view>
+  </view>
+
+  <view class="spec-section">
+    <view class="section-title">规格选择</view>
+    <view class="spec-list">
+      <view 
+        class="spec-item {{index === selectedSpecIndex ? 'active' : ''}}" 
+        wx:for="{{specs}}" 
+        wx:key="index"
+        bindtap="selectSpec"
+        data-index="{{index}}"
+      >
+        {{item.name}}
+      </view>
+    </view>
+    <view class="quantity-section">
+      <text class="quantity-label">购买数量</text>
+      <view class="quantity-control">
+        <button class="qty-btn" bindtap="decreaseQty">-</button>
+        <text class="qty-value">{{quantity}}</text>
+        <button class="qty-btn" bindtap="increaseQty">+</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="detail-section">
+    <view class="section-title">商品详情</view>
+    <view class="detail-images">
+      <image wx:for="{{goods.detailImages || [goods.image]}}" wx:key="*this" src="{{item}}" mode="widthFix" class="detail-image"></image>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="bar-item" bindtap="goToStore">
+      <view class="bar-icon">🏠</view>
+      <text>店铺</text>
+    </view>
+    <view class="bar-item" bindtap="contactSeller">
+      <view class="bar-icon">💬</view>
+      <text>客服</text>
+    </view>
+    <button class="cart-btn" bindtap="addToCart">加入购物车</button>
+    <button class="buy-btn" bindtap="buyNow">立即购买</button>
+  </view>
+</view>

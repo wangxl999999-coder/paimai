@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="seckill-header">
+    <view class="countdown-section">
+      <text class="countdown-label">距结束</text>
+      <view class="countdown-timer">
+        <text class="time-block">{{countdown.hours}}</text>
+        <text class="time-colon">:</text>
+        <text class="time-block">{{countdown.minutes}}</text>
+        <text class="time-colon">:</text>
+        <text class="time-block">{{countdown.seconds}}</text>
+      </view>
+    </view>
+  </view>
+
+  <swiper class="banner-swiper" indicator-dots autoplay circular>
+    <swiper-item wx:for="{{goods.images || [goods.image]}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="goods-info">
+    <view class="price-section">
+      <view class="seckill-tag">秒杀</view>
+      <view class="seckill-price">¥{{goods.seckillPrice}}</view>
+      <view class="original-price">¥{{goods.originalPrice}}</view>
+      <view class="discount">{{discount}}折</view>
+    </view>
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="goods-desc">{{goods.description}}</view>
+  </view>
+
+  <view class="stock-section">
+    <view class="stock-info">
+      <text>已售 {{soldCount}}</text>
+      <text>库存 {{stockCount}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{soldPercent}}%"></view>
+    </view>
+    <view class="stock-tip">已抢{{soldPercent}}%</view>
+  </view>
+
+  <view class="rule-section">
+    <view class="section-title">秒杀规则</view>
+    <view class="rule-list">
+      <view class="rule-item">• 每人限购 {{goods.limitPerPerson || 1}} 件</view>
+      <view class="rule-item">• 秒杀商品不支持退款</view>
+      <view class="rule-item">• 付款后48小时内发货</view>
+      <view class="rule-item">• 数量有限，先到先得</view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="price-info">
+      <text class="label">秒杀价</text>
+      <text class="price">¥{{goods.seckillPrice}}</text>
+    </view>
+    <button class="buy-btn {{stockCount <= 0 ? 'disabled' : ''}}" bindtap="buyNow">
+      {{stockCount <= 0 ? '已抢光' : '立即抢购'}}
+    </button>
+  </view>
+</view>
