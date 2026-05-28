@@ -48,16 +48,16 @@ paimai/
 npm run install:all
 ```
 
-### 启动后端服务
+### 启动后端服务 (端口: 3003)
 ```bash
 npm run dev:server
 ```
 
-### 启动管理后台
+### 启动管理后台 (端口: 3001-3002)
 ```bash
 npm run dev:admin
 ```
-管理后台访问: http://localhost:3001
+管理后台访问: http://localhost:3001/ 或 http://localhost:3002/ (如3001被占用)
 
 ### 运行小程序
 使用微信开发者工具导入 `miniprogram` 目录

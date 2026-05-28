@@ -67,10 +67,24 @@ Page({
       url: '/user/commissions',
       data: { page, pageSize: this.data.pageSize, status }
     }).then(res => {
-      const list = res.list.map(item => ({
-        ...item,
-        timeText: app.formatTime(item.createdAt)
-      }));
+      const list = res.list.map(item => {
+        let goodsImage = '';
+        let goodsTitle = '';
+        if (item.goods) {
+          if (item.goods.images && item.goods.images.length > 0) {
+            goodsImage = item.goods.images[0];
+          } else if (item.goods.image) {
+            goodsImage = item.goods.image;
+          }
+          goodsTitle = item.goods.title || '';
+        }
+        return {
+          ...item,
+          goodsImage,
+          goodsTitle,
+          timeText: app.formatTime(item.createdAt)
+        };
+      });
       this.setData({
         list: refresh ? list : [...this.data.list, ...list],
         page: page + 1,

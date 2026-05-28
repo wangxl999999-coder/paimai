@@ -35,9 +35,9 @@
   <view class="commission-list" wx:if="{{list.length > 0}}">
     <view class="commission-item" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.goodsId}}">
       <view class="item-left">
-        <image src="{{item.goods?.images[0]}}" class="goods-img" wx:if="{{item.goods}}"></image>
+        <image src="{{item.goodsImage}}" class="goods-img" wx:if="{{item.goodsImage}}"></image>
         <view class="item-info">
-          <view class="item-title">{{item.remark || item.goods?.title || '佣金收入'}}</view>
+          <view class="item-title">{{item.remark || item.goodsTitle || '佣金收入'}}</view>
           <view class="item-meta">
             <text class="from" wx:if="{{item.fromUser}}">来自: {{item.fromUser.nickname}}</text>
             <text class="time">{{item.timeText}}</text>
