@@ -2,7 +2,7 @@ App({
   globalData: {
     userInfo: null,
     token: '',
-    baseUrl: 'http://localhost:3000/api',
+    baseUrl: 'http://localhost:3003/api',
     subscribeList: []
   },
 

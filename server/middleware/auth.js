@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findByPk(decoded.userId, {
+    const user = await User.findByPk(decoded.id, {
       attributes: { exclude: ['password'] }
     });
     if (!user || user.status === 'disabled') {
@@ -30,7 +30,7 @@ module.exports.adminAuth = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findByPk(decoded.userId, {
+    const user = await User.findByPk(decoded.id, {
       attributes: { exclude: ['password'] }
     });
     if (!user || !user.isAdmin) {

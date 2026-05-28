@@ -13,6 +13,7 @@ Page({
       fansCount: 0,
       subscribeCount: 0
     },
+    statsError: false,
     menuGroups: [
       {
         title: '我的交易',
@@ -66,12 +67,14 @@ Page({
       this.setData({ userInfo: res });
       app.globalData.userInfo = res;
       wx.setStorageSync('userInfo', res);
-    });
+    }).catch(() => {});
   },
 
   loadStats() {
     app.request({ url: '/user/stats' }).then(res => {
       this.setData({ stats: res });
+    }).catch(err => {
+      this.setData({ statsError: true });
     });
   },
 
@@ -88,7 +91,13 @@ Page({
       }
       return;
     }
-    wx.navigateTo({ url });
+    wx.navigateTo({ 
+      url,
+      fail: (err) => {
+        console.error('navigateTo failed:', err);
+        wx.showToast({ title: '页面跳转失败', icon: 'none' });
+      }
+    });
   },
 
   goEditProfile() {
@@ -101,6 +110,15 @@ Page({
 
   goWithdraw() {
     wx.navigateTo({ url: '/pages/withdraw/withdraw' });
+  },
+
+  onPullDownRefresh() {
+    this.setData({ statsError: false });
+    this.loadUserInfo();
+    this.loadStats();
+    setTimeout(() => {
+      wx.stopPullDownRefresh();
+    }, 1000);
   },
 
   onShareAppMessage() {

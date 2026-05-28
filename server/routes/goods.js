@@ -11,25 +11,34 @@ router.get('/list', async (req, res) => {
     if (type) where.type = type;
     if (category) where.category = category;
     if (sellerId) where.sellerId = sellerId;
-    if (keyword) {
-      where[Op.or] = [
-        { title: { [Op.like]: `%${keyword}%` } },
-        { description: { [Op.like]: `%${keyword}%` } }
-      ];
-    }
     const now = new Date();
     where.startTime = { [Op.lte]: now };
-    where[Op.or] = [
+    const timeConditions = [
       { endTime: null },
       { endTime: { [Op.gt]: now } }
     ];
+    if (keyword) {
+      where[Op.and] = [
+        {
+          [Op.or]: [
+            { title: { [Op.like]: `%${keyword}%` } },
+            { description: { [Op.like]: `%${keyword}%` } }
+          ]
+        },
+        {
+          [Op.or]: timeConditions
+        }
+      ];
+    } else {
+      where[Op.or] = timeConditions;
+    }
     const { count, rows } = await Goods.findAndCountAll({
       where,
       include: [
         {
           model: User,
           as: 'seller',
-          attributes: ['id', 'nickname', 'avatar', 'isVerified', 'hasWelfare', 'fansCount', 'goodsCount']
+          attributes: ['id', 'nickname', 'avatar', 'isVerified', 'hasWelfare', 'fansCount']
         }
       ],
       order: [

@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { Goods, Order } = require('../models');
 const router = express.Router();
 
@@ -25,7 +26,7 @@ router.post('/buy', async (req, res) => {
     }
     const limitPerUser = goods.limitPerUser || 1;
     const userBuyCount = await Order.count({
-      where: { goodsId, buyerId: userId, status: { $ne: 'cancelled' } }
+      where: { goodsId, buyerId: userId, status: { [Op.ne]: 'cancelled' } }
     });
     if (userBuyCount + quantity > limitPerUser) {
       return res.json({ code: 400, message: `每人限购${limitPerUser}件` });
@@ -34,7 +35,7 @@ router.post('/buy', async (req, res) => {
     try {
       const result = await Goods.decrement(
         { stock: quantity },
-        { where: { id: goodsId, stock: { $gte: quantity } }, transaction: t }
+        { where: { id: goodsId, stock: { [Op.gte]: quantity } }, transaction: t }
       );
       if (result[0] === 0) {
         await t.rollback();

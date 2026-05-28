@@ -19,10 +19,10 @@ router.get('/stats', async (req, res) => {
   try {
     const userId = req.user.id;
     const publishedCount = await Goods.count({ where: { sellerId: userId } });
-    const soldCount = await Order.count({ where: { sellerId: userId, status: { $ne: 'cancelled' } } });
-    const purchasedCount = await Order.count({ where: { buyerId: userId, status: { $ne: 'cancelled' } } });
+    const soldCount = await Order.count({ where: { sellerId: userId, status: { [Op.ne]: 'cancelled' } } });
+    const purchasedCount = await Order.count({ where: { buyerId: userId, status: { [Op.ne]: 'cancelled' } } });
     const totalAmount = await Order.sum('totalAmount', {
-      where: { sellerId: userId, status: { $in: ['completed', 'paid', 'shipped'] } }
+      where: { sellerId: userId, status: { [Op.in]: ['completed', 'paid', 'shipped'] } }
     });
     const fansCount = await Subscribe.count({ where: { publisherId: userId } });
     const subscribeCount = await Subscribe.count({ where: { userId } });
@@ -78,7 +78,10 @@ router.get('/orders', async (req, res) => {
         group: ['goodsId']
       });
       const goodsIds = bids.map(b => b.goodsId);
-      where = { id: goodsIds.length > 0 ? goodsIds : 0 };
+      if (goodsIds.length === 0) {
+        return res.json({ code: 0, data: { list: [], total: 0 } });
+      }
+      where = { id: { [Op.in]: goodsIds } };
       includeGoods = false;
       const goodsList = await Goods.findAndCountAll({
         where,
